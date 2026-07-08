@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StoreStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum CameraType {
+  WEBCAM
+  RTSP
+  VIDEO_FILE
+}
+
+enum CameraStatus {
+  ONLINE
+  OFFLINE
+}
+
+enum AgentStatus {
+  ONLINE
+  OFFLINE
+  SYNCHRONIZING
+}
+
+model User {
+  id           String    @id @default(uuid()) @db.Uuid
+  name         String
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  store        Store?
+
+  @@index([email])
+}
+
+model Store {
+  id        String      @id @default(uuid()) @db.Uuid
+  ownerId   String      @unique @db.Uuid
+  name      String
+  address   String?
+  timeZone  String      @default("UTC")
+  status    StoreStatus @default(ACTIVE)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?
+  owner     User        @relation(fields: [ownerId], references: [id])
+  cameras   Camera[]
+  agents    AiAgent[]
+  events    VisitorEvent[]
+
+  @@index([ownerId])
+}
+
+model Camera {
+  id             String         @id @default(uuid()) @db.Uuid
+  storeId        String         @db.Uuid
+  name           String
+  type           CameraType
+  status         CameraStatus   @default(OFFLINE)
+  lastSyncAt     DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
+  store          Store          @relation(fields: [storeId], references: [id])
+  agents         AiAgent[]
+  visitorEvents  VisitorEvent[]
+
+  @@index([storeId])
+  @@index([status])
+}
+
+model AiAgent {
+  id           String      @id @default(uuid()) @db.Uuid
+  storeId      String      @db.Uuid
+  cameraId     String      @db.Uuid
+  name         String
+  apiTokenHash String      @unique
+  status       AgentStatus @default(OFFLINE)
+  lastSeenAt   DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  store        Store       @relation(fields: [storeId], references: [id])
+  camera       Camera      @relation(fields: [cameraId], references: [id])
+  events       VisitorEvent[]
+
+  @@index([storeId])
+  @@index([cameraId])
+  @@index([status])
+}
+
+model VisitorEvent {
+  id         String   @id @db.Uuid
+  storeId    String   @db.Uuid
+  cameraId   String   @db.Uuid
+  agentId    String   @db.Uuid
+  occurredAt DateTime
+  direction  String
+  createdAt  DateTime @default(now())
+  store      Store    @relation(fields: [storeId], references: [id])
+  camera     Camera   @relation(fields: [cameraId], references: [id])
+  agent      AiAgent  @relation(fields: [agentId], references: [id])
+
+  @@index([storeId, occurredAt])
+  @@index([cameraId, occurredAt])
+  @@index([agentId, occurredAt])
+}
