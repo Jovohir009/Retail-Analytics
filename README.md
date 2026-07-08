@@ -1,49 +1,63 @@
-Retail Analytics Platform
+# Retail Analytics Platform
 
 A cloud-connected AI-powered retail analytics platform that counts visitors in real time using CCTV cameras or webcams. The system combines computer vision, an AI Agent, and a web dashboard to provide business owners with live traffic analytics without storing video in the cloud.
 
-Overview
+---
+
+# Overview
 
 Retail Analytics Platform is designed for physical retail stores that want to understand customer traffic, peak hours, and store performance using existing surveillance cameras.
 
 Instead of sending video streams to the cloud, an AI Agent installed on a local Windows computer processes the video locally using YOLO and ByteTrack. Only visitor events and metadata are synchronized with the backend, making the platform bandwidth-efficient, privacy-friendly, and scalable.
 
-Current MVP Features
-Dashboard
-User authentication
-Store management
-Camera management
-AI Agent registration
-Live system health monitoring
-Online/Offline status of cameras
-Online/Offline status of AI Agents
-Visitor analytics dashboard
-Hourly, daily, weekly and monthly analytics
-Automatic data refresh
-AI Agent
-Local Windows AI Agent
-Webcam support
-RTSP architecture prepared
-YOLOv8 person detection
-ByteTrack object tracking
-Virtual line crossing algorithm
-Local SQLite offline event storage
-Automatic synchronization with backend
-Automatic heartbeat monitoring
-Automatic camera reconnection
-Offline-first architecture
-Backend
-REST API built with NestJS
-JWT Authentication
-Prisma ORM
-PostgreSQL database
-Secure AI Agent authentication
-Camera management
-Visitor event synchronization
-Analytics aggregation
-Modular architecture
-System Architecture
+---
 
+# Current MVP Features
+
+## Dashboard
+
+- User authentication
+- Store management
+- Camera management
+- AI Agent registration
+- Live system health monitoring
+- Online/Offline status of cameras
+- Online/Offline status of AI Agents
+- Visitor analytics dashboard
+- Hourly, daily, weekly and monthly analytics
+- Automatic data refresh
+
+## AI Agent
+
+- Local Windows AI Agent
+- Webcam support
+- RTSP architecture prepared
+- YOLOv8 person detection
+- ByteTrack object tracking
+- Virtual line crossing algorithm
+- Local SQLite offline event storage
+- Automatic synchronization with backend
+- Automatic heartbeat monitoring
+- Automatic camera reconnection
+- Offline-first architecture
+
+## Backend
+
+- REST API built with NestJS
+- JWT Authentication
+- Prisma ORM
+- PostgreSQL database
+- Secure AI Agent authentication
+- Camera management
+- Visitor event synchronization
+- Analytics aggregation
+- Modular architecture
+
+---
+
+# System Architecture
+
+```text
                Dashboard (Next.js)
                       │
                       ▼
@@ -60,177 +74,213 @@ System Architecture
                       ▲
                       │
           Webcam / CCTV (RTSP)
-          
-Current Workflow
-1. User logs into the dashboard
+```
+
+---
+
+# Current Workflow
+
+## 1. User logs into the dashboard
 
 The store owner creates a store profile and registers their camera.
 
-2. AI Agent starts
+## 2. AI Agent starts
 
 The AI Agent runs on a local Windows computer inside the store.
 
-It
+It:
 
-connects to the camera
-detects people
-tracks movement
-counts visitors crossing the configured line
-3. Local Processing
+- Connects to the camera
+- Detects people
+- Tracks movement
+- Counts visitors crossing the configured counting line
+
+## 3. Local Processing
 
 Video never leaves the local machine.
 
 Only metadata is generated:
 
-Visitor entered
-Timestamp
-Camera
-Store
-AI Agent
-4. Synchronization
+- Visitor entered
+- Timestamp
+- Camera
+- Store
+- AI Agent
+
+## 4. Synchronization
 
 Events are stored locally inside SQLite.
 
-If internet becomes unavailable:
+If the internet becomes unavailable:
 
-events continue being collected
-data is queued locally
-synchronization resumes automatically when connection returns
-5. Dashboard
+- Events continue being collected
+- Data is queued locally
+- Synchronization resumes automatically when the connection returns
 
-Business owners can immediately see
+## 5. Dashboard
 
-Today's visitors
-Live visitor count
-Peak hours
-Monthly visitors
-Camera status
-AI Agent status
-Technologies Used
-Frontend
-Next.js
-React
-TypeScript
-TailwindCSS
-Backend
-NestJS
-TypeScript
-Prisma ORM
-PostgreSQL
-JWT Authentication
-AI Agent
-Python
-OpenCV
-Ultralytics YOLOv8
-ByteTrack
-SQLite
-Requests
-Database
-PostgreSQL
-Prisma
-Privacy First
+Business owners can immediately see:
 
-Unlike many cloud video analytics solutions, this platform does not upload surveillance footage.
+- Today's visitors
+- Live visitor count
+- Peak hours
+- Monthly visitors
+- Camera status
+- AI Agent status
+
+---
+
+# Technologies Used
+
+## Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Backend
+
+- NestJS
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- JWT Authentication
+
+## AI Agent
+
+- Python
+- OpenCV
+- Ultralytics YOLOv8
+- ByteTrack
+- SQLite
+- Requests
+
+## Database
+
+- PostgreSQL
+- Prisma ORM
+
+---
+
+# Privacy First
+
+Unlike many cloud video analytics solutions, this platform **does not upload surveillance footage**.
 
 Only lightweight visitor metadata is synchronized.
 
 Benefits:
 
-Lower bandwidth usage
-Better privacy
-Faster processing
-Local AI inference
-Offline capability
-Future Roadmap
+- Lower bandwidth usage
+- Better privacy
+- Faster processing
+- Local AI inference
+- Offline capability
 
-The current repository represents the MVP. The following features are planned:
+---
 
-Smart AI Agent Installation
+# Future Roadmap
+
+The current repository represents the MVP. The following features are planned.
+
+## Smart AI Agent Installation
 
 Instead of manually configuring environment variables, users will:
 
-Download the Retail Analytics AI Agent
-Install the application
-Scan a QR Code generated by the dashboard
-AI Agent automatically pairs with the cloud
+- Download the Retail Analytics AI Agent
+- Install the application
+- Scan a QR code generated by the dashboard
+- AI Agent automatically pairs with the cloud
 
 No manual configuration required.
 
-Dynamic Camera Configuration
+## Dynamic Camera Configuration
 
 The dashboard will become the complete control center.
 
 Supported camera types:
 
-Webcam
-RTSP Cameras
-Video Files
+- Webcam
+- RTSP Cameras
+- Video Files
 
 After selecting the camera type, configuration forms will appear dynamically.
 
 For IP cameras, users will only provide:
 
-Camera Brand
-IP Address
-Username
-Password
+- Camera Brand
+- IP Address
+- Username
+- Password
 
 The AI Agent will automatically generate the required RTSP connection.
 
-Live Camera Preview
+## Live Camera Preview
 
-Users will be able to
+Users will be able to:
 
-Test camera connection
-Preview live video
-Draw counting lines visually
-Configure entrances without editing files
-Multi-Camera Support
+- Test camera connection
+- Preview live video
+- Draw counting lines visually
+- Configure entrances without editing files
 
-Future versions will support
+## Multi-Camera Support
 
-Multiple cameras per store
-Multiple AI Agents
-Centralized management
-Advanced Analytics
+Future versions will support:
 
-Planned analytics include
+- Multiple cameras per store
+- Multiple AI Agents
+- Centralized management
 
-Heatmaps
-Dwell time estimation
-Visitor trends
-Conversion analytics
-Store comparison
-Custom reports
-AI-powered business insights
-Deployment
+## Advanced Analytics
+
+Planned analytics include:
+
+- Heatmaps
+- Dwell time estimation
+- Visitor trends
+- Conversion analytics
+- Store comparison
+- Custom reports
+- AI-powered business insights
+
+## Deployment
 
 Future deployment will include:
 
-Cloud-hosted backend
-Docker support
-One-click AI Agent installer
-Automatic updates
-Secure agent pairing
-Enterprise-ready architecture
-Why This Project?
+- Cloud-hosted backend
+- Docker support
+- One-click AI Agent installer
+- QR-code pairing
+- Automatic updates
+- Secure agent pairing
+- Enterprise-ready architecture
+
+---
+
+# Why This Project?
 
 Retail Analytics Platform was built to demonstrate how modern AI and cloud technologies can be combined to solve real business problems.
 
 The project emphasizes:
 
-Clean architecture
-Scalable backend design
-Offline-first synchronization
-Privacy-first AI processing
-Modular software engineering
-Real-world deployment considerations
-Repository Structure
+- Clean architecture
+- Scalable backend design
+- Offline-first synchronization
+- Privacy-first AI processing
+- Modular software engineering
+- Real-world deployment considerations
+
+---
+
+# Repository Structure
+
+```text
 Retail-Analytics/
 │
 ├── backend/
 │   ├── NestJS REST API
-│   ├── Prisma
+│   ├── Prisma ORM
 │   └── PostgreSQL
 │
 ├── dashboard/
@@ -245,12 +295,24 @@ Retail-Analytics/
 │   └── Synchronization Engine
 │
 └── docs/
-Contact
+```
 
-Developer: Javohir Bahodirov
+---
 
-📧 Email: jbahodirov157@gmail.com
+# Contact
 
-📱 Phone: +998 90 009 38 31
+**Developer: Javohir Bahodirov**
 
-💬 Telegram: @Bhdrv_j
+📧 **Email:** jbahodirov157@gmail.com
+
+📱 **Phone:** +998 90 009 38 31
+
+💬 **Telegram:** @Bhdrv_j
+
+---
+
+## ⭐ Support
+
+If you found this project interesting, please consider giving it a ⭐ on GitHub.
+
+Feedback, suggestions, and contributions are always welcome!
